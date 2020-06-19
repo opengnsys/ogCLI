@@ -14,7 +14,7 @@ class CLI():
 				self.cfg = json.load(json_file)
 		except json.JSONDecodeError:
 			sys.exit(f'ERROR: Failed parse malformed JSON file '
-				f'{OG_CLI_CFG_PATH}')
+				 f'{OG_CLI_CFG_PATH}')
 		except:
 			sys.exit(f'ERROR: cannot open {OG_CLI_CFG_PATH}')
 
@@ -24,20 +24,12 @@ class CLI():
 		parser.add_argument('command', help='Subcommand to run')
 		args = parser.parse_args(sys.argv[1:2])
 
-		if not hasattr(self, args.command):
+		if not hasattr(self.ogcli, args.command):
 			parser.print_help()
 			sys.exit('Unknown command')
 
 		# Call the command with the same name.
-		getattr(self, args.command)(sys.argv[2:])
-
-	def list(self, args):
-		parser = argparse.ArgumentParser()
-		parser.add_argument('item', choices=['clients'])
-		parser.parse_args(args)
-
-		if parser.item == 'clients':
-			self.ogcli.client_list()
+		getattr(self.ogcli, args.command)(sys.argv[2:])
 
 if __name__ == "__main__":
 	CLI()

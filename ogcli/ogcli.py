@@ -1,18 +1,32 @@
+from ogcli.objects.og_client import OgClient
+import argparse
 import requests
+import sys
+
+class OgREST():
+	def __init__(self, ip, port, api_token):
+		self.URL = f'http://{ip}:{port}'
+		self.HEADERS = {'Authorization' : api_token}
+
+	def get(self, path):
+		try:
+			r = requests.get(f'{self.URL}/clients',
+					 headers=self.HEADERS)
+			if r.status_code != 200:
+				sys.exit(f"Cannot connect to ogServer: "
+					 f"{r.status_code} HTTP status code")
+		except IOError as e:
+			sys.exit(f"Cannot connect to ogServer: {e}")
+		return r
 
 class OgCLI():
 	def __init__(self, cfg):
-		self.api_token = cfg['api_token']
+		self.rest = OgREST(cfg['ip'], cfg['port'], cfg['api_token'])
 
-	def client_list(self):
-		headers = {'Authorization' : self.api_token}
-		try:
-			r = requests.get('http://127.0.0.1:8888/clients',
-                                         headers=headers)
-			if r.status_code != 200:
-				sys.exit(f"Cannot connect to ogServer: "
-                                         f"{r.status_code} HTTP status code")
-		except IOError as e:
-			sys.exit(f"Cannot connect to ogServer: {e}")
+	def list(self, args):
+		parser = argparse.ArgumentParser()
+		parser.add_argument('item', choices=['clients'])
+		args = parser.parse_args(args)
 
-		print(r.json())
+		if args.item == 'clients':
+			OgClient.list_clients(self.rest)
