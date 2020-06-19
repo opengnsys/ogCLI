@@ -1,3 +1,5 @@
 {
-	"api_token" : "07b3bfe728954619b58f0107ad73acc1"
+	"api_token" : "07b3bfe728954619b58f0107ad73acc1",
+	"ip": "127.0.0.1",
+	"port": 8888
 }
