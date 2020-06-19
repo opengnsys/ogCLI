@@ -1,4 +1,5 @@
 from ogcli.objects.og_client import OgClient
+from ogcli.objects.og_scopes import OgScope
 import argparse
 import requests
 import sys
@@ -10,7 +11,7 @@ class OgREST():
 
 	def get(self, path):
 		try:
-			r = requests.get(f'{self.URL}/clients',
+			r = requests.get(f'{self.URL}{path}',
 					 headers=self.HEADERS)
 			if r.status_code != 200:
 				sys.exit(f"Cannot connect to ogServer: "
@@ -24,9 +25,12 @@ class OgCLI():
 		self.rest = OgREST(cfg['ip'], cfg['port'], cfg['api_token'])
 
 	def list(self, args):
+		choices = ['clients', 'scopes']
 		parser = argparse.ArgumentParser()
-		parser.add_argument('item', choices=['clients'])
+		parser.add_argument('item', choices=choices)
 		args = parser.parse_args(args)
 
 		if args.item == 'clients':
 			OgClient.list_clients(self.rest)
+		elif args.item == 'scopes':
+			OgScope.list_scopes(self.rest)
