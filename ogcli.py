@@ -18,6 +18,12 @@ class CLI():
 		except:
 			sys.exit(f'ERROR: cannot open {OG_CLI_CFG_PATH}')
 
+		required_cfg_params = {'api_token', 'ip', 'port'}
+		difference_cfg_params = required_cfg_params - self.cfg.keys()
+		if len(difference_cfg_params) > 0:
+			sys.exit(f'Missing {difference_cfg_params} key in '
+				 f'json config file')
+
 		self.ogcli = OgCLI(self.cfg)
 
 		parser = argparse.ArgumentParser(prog='ogcli')
