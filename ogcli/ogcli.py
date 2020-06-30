@@ -1,5 +1,6 @@
 from ogcli.objects.og_client import OgClient
 from ogcli.objects.og_scopes import OgScope
+from ogcli.objects.modes import OgModes
 import argparse
 import requests
 import sys
@@ -25,12 +26,14 @@ class OgCLI():
 		self.rest = OgREST(cfg['ip'], cfg['port'], cfg['api_token'])
 
 	def list(self, args):
-		choices = ['clients', 'scopes']
+		choices = ['clients', 'scopes', 'modes']
 		parser = argparse.ArgumentParser()
 		parser.add_argument('item', choices=choices)
 		args = parser.parse_args(args)
 
 		if args.item == 'clients':
 			OgClient.list_clients(self.rest)
+		elif args.item == 'modes':
+			OgModes.list_available_modes(self.rest)
 		elif args.item == 'scopes':
 			OgScope.list_scopes(self.rest)
