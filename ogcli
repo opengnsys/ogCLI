@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from ogcli.ogcli import OgCLI
+from cli.cli import OgCLI
 import argparse
 import json
 import sys

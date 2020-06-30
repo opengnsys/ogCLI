@@ -1,6 +1,6 @@
-from ogcli.objects.og_client import OgClient
-from ogcli.objects.og_scopes import OgScope
-from ogcli.objects.modes import OgModes
+from cli.objects.client import OgClient
+from cli.objects.scopes import OgScope
+from cli.objects.modes import OgModes
 import argparse
 import requests
 import sys
