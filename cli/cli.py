@@ -58,3 +58,12 @@ class OgCLI():
 			OgModes.list_available_modes(self.rest)
 		elif args.item == 'scopes':
 			OgScope.list_scopes(self.rest)
+
+	def set(self, args):
+		choices = ['modes']
+		parser = argparse.ArgumentParser()
+		parser.add_argument('item', choices=choices)
+		parsed_args = parser.parse_args([args[0]])
+
+		if parsed_args.item == 'modes':
+			OgModes.set_modes(self.rest, args[1:])
