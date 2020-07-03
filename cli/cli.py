@@ -29,6 +29,19 @@ class OgREST():
 			sys.exit(f"Cannot connect to ogServer: {e}")
 		return r
 
+	def post(self, path, payload):
+		try:
+			r = requests.post(f'{self.URL}{path}',
+					  headers=self.HEADERS,
+					  json=payload)
+			print(r.text)
+			if r.status_code not in {200, 202}:
+				sys.exit(f"Cannot connect to ogServer: "
+					 f"{r.status_code} HTTP status code")
+		except IOError as e:
+			sys.exit(f"Cannot connect to ogServer: {e}")
+		return r
+
 class OgCLI():
 	def __init__(self, cfg):
 		self.rest = OgREST(cfg['ip'], cfg['port'], cfg['api_token'])
