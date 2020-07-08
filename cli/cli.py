@@ -18,10 +18,11 @@ class OgREST():
 		self.URL = f'http://{ip}:{port}'
 		self.HEADERS = {'Authorization' : api_token}
 
-	def get(self, path):
+	def get(self, path, payload=None):
 		try:
 			r = requests.get(f'{self.URL}{path}',
-					 headers=self.HEADERS)
+					 headers=self.HEADERS,
+					 json=payload)
 			if r.status_code != 200:
 				sys.exit(f"Cannot connect to ogServer: "
 					 f"{r.status_code} HTTP status code")
