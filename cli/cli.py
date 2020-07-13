@@ -48,13 +48,16 @@ class OgCLI():
 		self.rest = OgREST(cfg['ip'], cfg['port'], cfg['api_token'])
 
 	def list(self, args):
-		choices = ['clients', 'scopes', 'modes', 'hardware']
+		choices = ['clients', 'scopes', 'modes', 'hardware',
+			   'client']
 		parser = argparse.ArgumentParser()
 		parser.add_argument('item', choices=choices)
 		parsed_args = parser.parse_args([args[0]])
 
 		if parsed_args.item == 'clients':
 			OgClient.list_clients(self.rest)
+		elif parsed_args.item == 'client':
+			OgClient.get_client_properties(self.rest, args[1:])
 		elif parsed_args.item == 'hardware':
 			OgClient.list_client_hardware(self.rest, args[1:])
 		elif parsed_args.item == 'modes':

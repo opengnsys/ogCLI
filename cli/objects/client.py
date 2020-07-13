@@ -28,3 +28,17 @@ class OgClient():
 				     'type': 'computer'}}
 		r = rest.get('/hardware', payload=payload)
 		print(r.json())
+
+	@staticmethod
+	def get_client_properties(rest, args):
+		parser = argparse.ArgumentParser()
+		parser.add_argument('--id',
+				    nargs=1,
+				    required=True,
+				    help='ID of the computer scope')
+		parsed_args = parser.parse_args(args)
+
+		payload = {'scope': {'id': int(parsed_args.id[0]),
+				     'type': 'computer'}}
+		r = rest.get('/client/properties', payload=payload)
+		print(r.json())
