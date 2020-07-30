@@ -18,21 +18,16 @@ class OgModes():
 	@staticmethod
 	def set_modes(rest, args):
 		parser = argparse.ArgumentParser()
-		parser.add_argument('--scope-id',
+		parser.add_argument('--scope-name',
 				    nargs=1,
 				    required=True,
-				    help='ID of the scope')
-		parser.add_argument('--scope-type',
-				    nargs=1,
-				    required=True,
-				    help='Type of the scope')
+				    help='Name of the scope (room or computer)')
 		parser.add_argument('--mode',
 				    nargs=1,
 				    required=True,
 				    help='Mode for the scope')
 		parsed_args = parser.parse_args(args)
 
-		payload = {'scope': {'id': int(parsed_args.scope_id[0]),
-				     'type': parsed_args.scope_type[0]},
+		payload = {'scope_name': parsed_args.scope_name[0],
 			   'mode': parsed_args.mode[0]}
 		r = rest.post('/modes', payload=payload)
