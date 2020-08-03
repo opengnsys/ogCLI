@@ -12,7 +12,7 @@ class OgModes():
 
 	@staticmethod
 	def list_available_modes(rest):
-		r = rest.get('/modes')
+		r = rest.get('/mode')
 		print(r.json())
 
 	@staticmethod
@@ -30,4 +30,4 @@ class OgModes():
 
 		payload = {'scope_name': parsed_args.scope_name[0],
 			   'mode': parsed_args.mode[0]}
-		r = rest.post('/modes', payload=payload)
+		r = rest.post('/mode', payload=payload)
