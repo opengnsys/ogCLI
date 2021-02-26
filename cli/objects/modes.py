@@ -18,18 +18,28 @@ class OgModes():
 	@staticmethod
 	def set_modes(rest, args):
 		parser = argparse.ArgumentParser()
-		parser.add_argument('--scope-id',
-				    nargs=1,
-				    required=True,
-				    help='ID of the scope')
-		parser.add_argument('--scope-type',
-				    nargs=1,
-				    required=True,
-				    help='Type of the scope')
+		group = parser.add_argument_group('clients', 'Client selection args')
+		group.add_argument('--center',
+				   type=int,
+				   action='append',
+				   default=[],
+				   required=False,
+				   help='Clients from given center')
+		group.add_argument('--room',
+				   type=int,
+				   action='append',
+				   default=[],
+				   required=False,
+				   help='Clients from given room')
+		group.add_argument('--client',
+				   action='append',
+				   default=[],
+				   required=False,
+				   help='Specific client IP')
 		parser.add_argument('--mode',
 				    nargs=1,
 				    required=True,
-				    help='Mode for the scope')
+				    help='Boot mode to be set')
 		parsed_args = parser.parse_args(args)
 
 		def scope_lookup(scope_id, scope_type, d):
@@ -54,15 +64,20 @@ class OgModes():
 
 		r = rest.get('/scopes')
 		scopes = r.json()
-		found_scope = scope_lookup(int(parsed_args.scope_id[0]),
-					   parsed_args.scope_type[0],
-					   scopes)
+		ips = set()
 
-		if found_scope is None:
-			print("Scope not found")
+		for center in parsed_args.center:
+			center_scope = scope_lookup(center, 'center', scopes)
+			ips.update(ips_in_scope(center_scope))
+		for room in parsed_args.room:
+			room_scope = scope_lookup(room, 'room', scopes)
+			ips.update(ips_in_scope(room_scope))
+		for l in parsed_args.client:
+			ips.add(l)
+
+		if not ips:
+			print("No clients found")
 			return None
 
-		ips = ips_in_scope(found_scope)
-
-		payload = {'clients': ips, 'mode': parsed_args.mode[0]}
+		payload = {'clients': list(ips), 'mode': parsed_args.mode[0]}
 		r = rest.post('/mode', payload=payload)
