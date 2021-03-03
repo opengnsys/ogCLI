@@ -25,12 +25,12 @@ class OgModes():
 				   default=[],
 				   required=False,
 				   help='Clients from given center')
-		group.add_argument('--room',
+		group.add_argument('--room-id',
 				   type=int,
 				   action='append',
 				   default=[],
 				   required=False,
-				   help='Clients from given room')
+				   help='Clients from given room id')
 		group.add_argument('--client',
 				   action='append',
 				   default=[],
@@ -69,7 +69,7 @@ class OgModes():
 		for center in parsed_args.center:
 			center_scope = scope_lookup(center, 'center', scopes)
 			ips.update(ips_in_scope(center_scope))
-		for room in parsed_args.room:
+		for room in parsed_args.room_id:
 			room_scope = scope_lookup(room, 'room', scopes)
 			ips.update(ips_in_scope(room_scope))
 		for l in parsed_args.client:
