@@ -18,26 +18,26 @@ class OgClient():
 	@staticmethod
 	def list_client_hardware(rest, args):
 		parser = argparse.ArgumentParser()
-		parser.add_argument('--client',
+		parser.add_argument('--client-ip',
 				    nargs=1,
 				    type=str,
 				    required=True,
 				    help='client IP')
 		parsed_args = parser.parse_args(args)
 
-		payload = {'client': parsed_args.client}
+		payload = {'client': parsed_args.client_ip}
 		r = rest.get('/hardware', payload=payload)
 		print(r.json())
 
 	@staticmethod
 	def get_client_properties(rest, args):
 		parser = argparse.ArgumentParser()
-		parser.add_argument('--client',
+		parser.add_argument('--client-ip',
 				    nargs=1,
 				    required=True,
 				    help='client IP')
 		parsed_args = parser.parse_args(args)
 
-		payload = {'client': parsed_args.client}
+		payload = {'client': parsed_args.client_ip}
 		r = rest.get('/client/info', payload=payload)
 		print(r.json())

@@ -19,19 +19,19 @@ class OgModes():
 	def set_modes(rest, args):
 		parser = argparse.ArgumentParser()
 		group = parser.add_argument_group('clients', 'Client selection args')
-		group.add_argument('--center',
+		group.add_argument('--center-id',
 				   type=int,
 				   action='append',
 				   default=[],
 				   required=False,
-				   help='Clients from given center')
+				   help='Clients from given center id')
 		group.add_argument('--room-id',
 				   type=int,
 				   action='append',
 				   default=[],
 				   required=False,
 				   help='Clients from given room id')
-		group.add_argument('--client',
+		group.add_argument('--client-ip',
 				   action='append',
 				   default=[],
 				   required=False,
@@ -66,13 +66,13 @@ class OgModes():
 		scopes = r.json()
 		ips = set()
 
-		for center in parsed_args.center:
+		for center in parsed_args.center_id:
 			center_scope = scope_lookup(center, 'center', scopes)
 			ips.update(ips_in_scope(center_scope))
 		for room in parsed_args.room_id:
 			room_scope = scope_lookup(room, 'room', scopes)
 			ips.update(ips_in_scope(room_scope))
-		for l in parsed_args.client:
+		for l in parsed_args.client_ip:
 			ips.add(l)
 
 		if not ips:
