@@ -13,7 +13,7 @@ class OgModes():
 	@staticmethod
 	def list_available_modes(rest):
 		r = rest.get('/mode')
-		print(r.json())
+		print(r.text)
 
 	@staticmethod
 	def set_modes(rest, args):

@@ -13,7 +13,7 @@ class OgClient():
 	@staticmethod
 	def list_clients(rest):
 		r = rest.get('/clients')
-		print(r.json())
+		print(r.text)
 
 	@staticmethod
 	def list_client_hardware(rest, args):
@@ -27,7 +27,7 @@ class OgClient():
 
 		payload = {'client': parsed_args.client_ip}
 		r = rest.get('/hardware', payload=payload)
-		print(r.json())
+		print(r.text)
 
 	@staticmethod
 	def get_client_properties(rest, args):
@@ -40,4 +40,4 @@ class OgClient():
 
 		payload = {'client': parsed_args.client_ip}
 		r = rest.get('/client/info', payload=payload)
-		print(r.json())
+		print(r.text)
