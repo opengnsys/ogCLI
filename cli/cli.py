@@ -51,7 +51,7 @@ class OgCLI():
 	def list(self, args):
 		choices = ['clients', 'scopes', 'modes', 'hardware',
 			   'client']
-		parser = argparse.ArgumentParser()
+		parser = argparse.ArgumentParser(prog='ogcli list')
 		parser.add_argument('item', choices=choices)
 		parsed_args = parser.parse_args([args[0]])
 
@@ -68,7 +68,7 @@ class OgCLI():
 
 	def set(self, args):
 		choices = ['modes']
-		parser = argparse.ArgumentParser()
+		parser = argparse.ArgumentParser(prog='ogcli set')
 		parser.add_argument('item', choices=choices)
 		parsed_args = parser.parse_args([args[0]])
 
