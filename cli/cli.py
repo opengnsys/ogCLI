@@ -86,3 +86,12 @@ class OgCLI():
 
 		if parsed_args.send_obj == 'wol':
 			OgWol.send_wol(self.rest, args[1:])
+
+	def restore(self, args):
+		choices = ['image']
+		parser = argparse.ArgumentParser(prog='ogcli restore')
+		parser.add_argument('send_obj', choices=choices)
+		parsed_args = parser.parse_args([args[0]])
+
+		if parsed_args.send_obj == 'image':
+			OgImage.restore_image(self.rest, args[1:])
