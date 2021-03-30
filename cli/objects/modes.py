@@ -6,6 +6,8 @@
 # Free Software Foundation, version 3.
 #
 
+from cli.utils import *
+
 import argparse
 
 class OgModes():
