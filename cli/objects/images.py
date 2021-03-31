@@ -41,7 +41,7 @@ class OgImage():
 				    help='Image id to be restored')
 		parser.add_argument('--repo',
 				    nargs='?',
-				    default=urlparse(rest.URL).netloc,
+				    default=urlparse(rest.URL).netloc.split(':')[0],
 				    help='Images repository ip')
 		group = parser.add_argument_group('clients', 'Client selection args')
 		group.add_argument('--center-id',
