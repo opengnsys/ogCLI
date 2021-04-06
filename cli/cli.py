@@ -12,6 +12,7 @@ from cli.objects.modes import OgModes
 from cli.objects.wol import OgWol
 from cli.objects.images import OgImage
 from cli.objects.disks import OgDisk
+from cli.objects.poweroff import OgPoweroff
 import argparse
 import requests
 import sys
@@ -82,13 +83,15 @@ class OgCLI():
 			OgModes.set_modes(self.rest, args[1:])
 
 	def send(self, args):
-		choices = ['wol']
+		choices = ['wol', 'poweroff']
 		parser = argparse.ArgumentParser(prog='ogcli send')
 		parser.add_argument('send_obj', choices=choices)
 		parsed_args = parser.parse_args([args[0]])
 
 		if parsed_args.send_obj == 'wol':
 			OgWol.send_wol(self.rest, args[1:])
+		elif parsed_args.send_obj == 'poweroff':
+			OgPoweroff.send_poweroff(self.rest, args[1:])
 
 	def restore(self, args):
 		choices = ['image']
