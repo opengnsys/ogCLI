@@ -11,6 +11,7 @@ from cli.objects.scopes import OgScope
 from cli.objects.modes import OgModes
 from cli.objects.wol import OgWol
 from cli.objects.images import OgImage
+from cli.objects.disks import OgDisk
 import argparse
 import requests
 import sys
@@ -51,7 +52,7 @@ class OgCLI():
 
 	def list(self, args):
 		choices = ['clients', 'scopes', 'modes', 'hardware',
-			   'client', 'images']
+			   'client', 'images', 'disks']
 		parser = argparse.ArgumentParser(prog='ogcli list')
 		parser.add_argument('item', choices=choices)
 		parsed_args = parser.parse_args([args[0]])
@@ -68,6 +69,8 @@ class OgCLI():
 			OgScope.list_scopes(self.rest)
 		elif parsed_args.item == 'images':
 			OgImage.list_images(self.rest)
+		elif parsed_args.item == 'disks':
+			OgDisk.list_disks(self.rest, args[1:])
 
 	def set(self, args):
 		choices = ['modes']
