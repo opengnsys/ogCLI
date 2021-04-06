@@ -98,3 +98,12 @@ class OgCLI():
 
 		if parsed_args.send_obj == 'image':
 			OgImage.restore_image(self.rest, args[1:])
+
+	def create(self, args):
+		choices = ['image']
+		parser = argparse.ArgumentParser(prog='ogcli create')
+		parser.add_argument('create_obj', choices=choices)
+		parsed_args = parser.parse_args([args[0]])
+
+		if parsed_args.create_obj == 'image':
+			OgImage.create_image(self.rest, args[1:])

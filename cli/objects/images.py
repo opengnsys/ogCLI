@@ -95,3 +95,52 @@ class OgImage():
 			   'repository': parsed_args.repo,
 			   'type': parsed_args.type.upper(), 'clients': list(ips)}
 		r = rest.post('/image/restore', payload=payload)
+
+	@staticmethod
+	def create_image(rest, args):
+		parser = argparse.ArgumentParser()
+		parser.add_argument('--disk',
+				    nargs='?',
+				    required=True,
+				    help='Disk')
+		parser.add_argument('--part',
+				    nargs='?',
+				    required=True,
+				    help='Partition')
+		parser.add_argument('--name',
+				    nargs='?',
+				    required=True,
+				    help='Image name')
+		parser.add_argument('--desc',
+				    nargs='?',
+				    required=True,
+				    help='Image description')
+		parser.add_argument('--repo',
+				    nargs='?',
+				    default=urlparse(rest.URL).netloc,
+				    help='Images repository ip')
+		group = parser.add_argument_group('clients', 'Client selection args')
+		group.add_argument('--client-ip',
+				   action='append',
+				   default=[],
+				   required=False,
+				   help='Specific client IP')
+		parsed_args = parser.parse_args(args)
+
+		r = rest.get('/client/info', payload={'client':parsed_args.client_ip})
+		center_id = r.json()['center']
+
+		r = rest.get('/client/setup', payload={'client':parsed_args.client_ip})
+		if r.status_code == 200:
+			part_info = list(filter(lambda x: x['disk'] == int(parsed_args.disk) and
+					 x['partition'] == int(parsed_args.part),
+					 r.json()['partitions']))
+			if not part_info:
+				print('Partition not found.')
+				return
+			fs_code = list(part_info)[0]['code']
+
+		payload = {'clients': parsed_args.client_ip, 'disk': parsed_args.disk, 'center_id': center_id,
+			   'partition': parsed_args.part, 'code': str(fs_code), 'name': parsed_args.name,
+                           'repository': parsed_args.repo, 'id': '0', 'description': parsed_args.desc}
+		rest.post('/image/create', payload=payload)
