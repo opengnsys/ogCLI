@@ -110,3 +110,12 @@ class OgCLI():
 
 		if parsed_args.create_obj == 'image':
 			OgImage.create_image(self.rest, args[1:])
+
+	def setup(self, args):
+		choices = ['disk']
+		parser = argparse.ArgumentParser(prog='ogcli setup')
+		parser.add_argument('setup_obj', choices=choices)
+		parsed_args = parser.parse_args([args[0]])
+
+		if parsed_args.setup_obj == 'disk':
+			OgDisk.setup_disk(self.rest, args[1:])
