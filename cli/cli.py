@@ -74,12 +74,12 @@ class OgCLI():
 			OgDisk.list_disks(self.rest, args[1:])
 
 	def set(self, args):
-		choices = ['modes']
+		choices = ['modes', 'mode']
 		parser = argparse.ArgumentParser(prog='ogcli set')
 		parser.add_argument('item', choices=choices)
 		parsed_args = parser.parse_args([args[0]])
 
-		if parsed_args.item == 'modes':
+		if parsed_args.item in choices:
 			OgModes.set_modes(self.rest, args[1:])
 
 	def send(self, args):
