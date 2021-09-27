@@ -34,7 +34,9 @@ class CLI():
 		self.ogcli = OgCLI(self.cfg)
 
 		parser = argparse.ArgumentParser(prog='ogcli')
-		parser.add_argument('command', help='Subcommand to run')
+		parser.add_argument('command', help='Subcommand to run',
+					choices=[attr for attr in dir(self.ogcli)
+						if not str.startswith(attr, "_")])
 		args = parser.parse_args(sys.argv[1:2])
 
 		if not hasattr(self.ogcli, args.command):
