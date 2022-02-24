@@ -7,6 +7,8 @@
 # Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 
+from inspect import ismethod, getmembers
+
 from cli.cli import OgCLI
 import argparse
 import json
@@ -34,9 +36,9 @@ class CLI():
 		self.ogcli = OgCLI(self.cfg)
 
 		parser = argparse.ArgumentParser(prog='ogcli')
-		parser.add_argument('command', help='Subcommand to run',
-					choices=[attr for attr in dir(self.ogcli)
-						if not str.startswith(attr, "_")])
+		parser.add_argument('command', help='Subcommand to run', nargs='?',
+				    choices=[attr for attr, _ in getmembers(self.ogcli, lambda x: ismethod(x))
+					     if not attr.startswith('_')])
 		args = parser.parse_args(sys.argv[1:2])
 
 		if not hasattr(self.ogcli, args.command):
