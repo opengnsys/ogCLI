@@ -35,9 +35,10 @@ class OgImage():
 				    help='Image id to be restored')
 		parser.add_argument('--type',
 				    nargs='?',
-				    required=True,
-				    choices=['unicast', 'unicast-direct'],
-				    help='Image id to be restored')
+				    required=False,
+				    choices=['unicast', 'unicast-direct', 'tiptorrent'],
+				    default='tiptorrent',
+				    help='Transfer method. (Default: tiptorrent)')
 		parser.add_argument('--repo',
 				    nargs='?',
 				    default=urlparse(rest.URL).netloc.split(':')[0],
