@@ -5,9 +5,12 @@
 # Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 
+import json
+
 class OgScope():
 
 	@staticmethod
 	def list_scopes(rest):
 		r = rest.get('/scopes')
-		print(r.text)
+		payload = json.loads(r.text)
+		print(json.dumps(payload, sort_keys=True, indent=2))
