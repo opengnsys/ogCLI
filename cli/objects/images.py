@@ -15,7 +15,7 @@ class OgImage():
 	@staticmethod
 	def list_images(rest):
 		r = rest.get('/images')
-		print(r.text)
+		print_json(r.text)
 
 	@staticmethod
 	def restore_image(rest, args):

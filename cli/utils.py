@@ -5,6 +5,8 @@
 # Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 
+import json
+
 def scope_lookup(scope_id, scope_type, d):
 	if scope_id == d.get('id') and scope_type == d.get('type'):
 		return d
@@ -23,3 +25,7 @@ def ips_in_scope(scope):
 	for child in scope['scope']:
 		ips += ips_in_scope(child)
 	return ips
+
+def print_json(text):
+	payload = json.loads(text)
+	print(json.dumps(payload, sort_keys=True, indent=2))

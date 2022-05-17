@@ -5,12 +5,13 @@
 # Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 
-import json
+import argparse
+
+from cli.utils import print_json
 
 class OgScope():
 
 	@staticmethod
 	def list_scopes(rest):
 		r = rest.get('/scopes')
-		payload = json.loads(r.text)
-		print(json.dumps(payload, sort_keys=True, indent=2))
+		print_json(r.text)

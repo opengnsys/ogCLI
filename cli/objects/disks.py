@@ -8,6 +8,8 @@
 import argparse
 import re
 
+from cli.utils import print_json
+
 class OgDisk():
 
 	@staticmethod
@@ -21,7 +23,7 @@ class OgDisk():
 		payload = {'client': [parsed_args.client_ip]}
 
 		r = rest.get('/client/setup', payload=payload)
-		print(r.text)
+		print_json(r.text)
 
 	@staticmethod
 	def setup_disk(rest, args):
