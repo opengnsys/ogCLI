@@ -134,8 +134,9 @@ class OgDisk():
 				'format': do_format}
 			payload['partition_setup'].append(part)
 
+		last_partnum = int(parsed_args.part[-1][0][0])
 		# Pad with empty partitions if no 4th part was defined
-		for i in range(len(parsed_args.part)+1, 5):
+		for i in range(last_partnum + 1, 5):
 			part = {'partition': str(i), 'code':'EMPTY',
 				'filesystem': 'EMPTY', 'size': '0',
 				'format': '0'}
