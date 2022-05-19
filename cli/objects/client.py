@@ -42,3 +42,16 @@ class OgClient():
 		payload = {'client': parsed_args.client_ip}
 		r = rest.get('/client/info', payload=payload)
 		print_json(r.text)
+
+	@staticmethod
+	def send_refresh(rest, args):
+		parser = argparse.ArgumentParser()
+		parser.add_argument('--client-ip',
+				   action='append',
+				   default=[],
+				   required=True,
+				   help='Client IP')
+		parsed_args = parser.parse_args(args)
+
+		payload = {'clients': parsed_args.client_ip}
+		rest.post('/refresh', payload=payload)

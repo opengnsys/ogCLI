@@ -82,7 +82,7 @@ class OgCLI():
 			OgModes.set_modes(self.rest, args[1:])
 
 	def send(self, args):
-		choices = ['wol', 'poweroff']
+		choices = ['wol', 'poweroff', 'refresh']
 		parser = argparse.ArgumentParser(prog='ogcli send')
 		parser.add_argument('send_obj', choices=choices)
 		parsed_args = parser.parse_args([args[0]])
@@ -91,6 +91,8 @@ class OgCLI():
 			OgWol.send_wol(self.rest, args[1:])
 		elif parsed_args.send_obj == 'poweroff':
 			OgPoweroff.send_poweroff(self.rest, args[1:])
+		elif parsed_args.send_obj == 'refresh':
+			OgClient.send_refresh(self.rest, args[1:])
 
 	def restore(self, args):
 		choices = ['image']
