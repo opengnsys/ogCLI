@@ -18,7 +18,7 @@ class OgModes():
 
 	@staticmethod
 	def set_modes(rest, args):
-		parser = argparse.ArgumentParser()
+		parser = argparse.ArgumentParser(prog='ogcli set mode')
 		group = parser.add_argument_group('clients', 'Client selection args')
 		group.add_argument('--center-id',
 				   type=int,
