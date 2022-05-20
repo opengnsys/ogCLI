@@ -9,9 +9,10 @@ import argparse
 
 from cli.utils import print_json
 
+
 class OgScope():
 
-	@staticmethod
-	def list_scopes(rest):
-		r = rest.get('/scopes')
-		print_json(r.text)
+    @staticmethod
+    def list_scopes(rest):
+        r = rest.get('/scopes')
+        print_json(r.text)

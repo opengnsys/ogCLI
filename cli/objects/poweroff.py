@@ -9,47 +9,49 @@ from cli.utils import *
 
 import argparse
 
+
 class OgPoweroff():
 
-	@staticmethod
-	def send_poweroff(rest, args):
-		parser = argparse.ArgumentParser()
-		group = parser.add_argument_group('clients', 'Client selection options')
-		group.add_argument('--center-id',
-				   type=int,
-				   action='append',
-				   default=[],
-				   required=False,
-				   help='Clients from given center id')
-		group.add_argument('--room-id',
-				   type=int,
-				   action='append',
-				   default=[],
-				   required=False,
-				   help='Clients from given room id')
-		group.add_argument('--client-ip',
-				   action='append',
-				   default=[],
-				   required=False,
-				   help='Specific client IP')
-		parsed_args = parser.parse_args(args)
+    @staticmethod
+    def send_poweroff(rest, args):
+        parser = argparse.ArgumentParser()
+        group = parser.add_argument_group(
+            'clients', 'Client selection options')
+        group.add_argument('--center-id',
+                           type=int,
+                           action='append',
+                           default=[],
+                           required=False,
+                           help='Clients from given center id')
+        group.add_argument('--room-id',
+                           type=int,
+                           action='append',
+                           default=[],
+                           required=False,
+                           help='Clients from given room id')
+        group.add_argument('--client-ip',
+                           action='append',
+                           default=[],
+                           required=False,
+                           help='Specific client IP')
+        parsed_args = parser.parse_args(args)
 
-		r = rest.get('/scopes')
-		scopes = r.json()
-		ips = set()
+        r = rest.get('/scopes')
+        scopes = r.json()
+        ips = set()
 
-		for center in parsed_args.center_id:
-			center_scope = scope_lookup(center, 'center', scopes)
-			ips.update(ips_in_scope(center_scope))
-		for room in parsed_args.room_id:
-			room_scope = scope_lookup(room, 'room', scopes)
-			ips.update(ips_in_scope(room_scope))
-		for l in parsed_args.client_ip:
-			ips.add(l)
+        for center in parsed_args.center_id:
+            center_scope = scope_lookup(center, 'center', scopes)
+            ips.update(ips_in_scope(center_scope))
+        for room in parsed_args.room_id:
+            room_scope = scope_lookup(room, 'room', scopes)
+            ips.update(ips_in_scope(room_scope))
+        for l in parsed_args.client_ip:
+            ips.add(l)
 
-		if not ips:
-			print("No clients found")
-			return None
+        if not ips:
+            print("No clients found")
+            return None
 
-		payload = {'clients': list(ips)}
-		r = rest.post('/poweroff', payload=payload)
+        payload = {'clients': list(ips)}
+        r = rest.post('/poweroff', payload=payload)
