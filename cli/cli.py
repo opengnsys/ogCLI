@@ -12,6 +12,7 @@ from cli.objects.wol import OgWol
 from cli.objects.images import OgImage
 from cli.objects.disks import OgDisk
 from cli.objects.poweroff import OgPoweroff
+from cli.objects.reboot import OgReboot
 import argparse
 import requests
 import sys
@@ -84,7 +85,7 @@ class OgCLI():
             OgModes.set_modes(self.rest, args[1:])
 
     def send(self, args):
-        choices = ['wol', 'poweroff', 'refresh']
+        choices = ['reboot', 'refresh', 'poweroff', 'wol']
         parser = argparse.ArgumentParser(prog='ogcli send')
         parser.add_argument('send_obj', choices=choices)
         parsed_args = parser.parse_args([args[0]])
@@ -95,6 +96,8 @@ class OgCLI():
             OgPoweroff.send_poweroff(self.rest, args[1:])
         elif parsed_args.send_obj == 'refresh':
             OgClient.send_refresh(self.rest, args[1:])
+        elif parsed_args.send_obj == 'reboot':
+            OgReboot.send_reboot(self.rest, args[1:])
 
     def restore(self, args):
         choices = ['image']
