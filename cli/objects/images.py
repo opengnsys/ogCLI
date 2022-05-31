@@ -126,7 +126,7 @@ class OgImage():
         group.add_argument('--client-ip',
                            action='append',
                            default=[],
-                           required=False,
+                           required=True,
                            help='Specific client IP')
         parsed_args = parser.parse_args(args)
 
