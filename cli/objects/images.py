@@ -118,10 +118,10 @@ class OgImage():
                             nargs='?',
                             required=False,
                             help='Image description (for new images)')
-        parser.add_argument('--repo',
+        parser.add_argument('--repo-id',
                             nargs='?',
-                            default=urlparse(rest.URL).netloc.split(':')[0],
-                            help='Images repository ip')
+                            default=1,
+                            help='Images repository id')
         group = parser.add_argument_group('clients', 'Client selection args')
         group.add_argument('--client-ip',
                            action='append',
@@ -146,8 +146,9 @@ class OgImage():
 
         payload = {'clients': parsed_args.client_ip, 'disk': parsed_args.disk, 'center_id': center_id,
                    'partition': parsed_args.part, 'code': str(fs_code), 'name': parsed_args.name,
-                   'repository': parsed_args.repo, 'id': '0'}
+                   'id': '0'}
         if parsed_args.desc:
             payload['description'] = parsed_args.desc
+            payload['repository_id'] = parsed_args.repo_id
 
         rest.post('/image/create', payload=payload)
